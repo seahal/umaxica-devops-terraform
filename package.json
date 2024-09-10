@@ -1,0 +1,18 @@
+{
+  "name": "hono",
+  "scripts": {
+    "dev": "fastly compute serve --watch",
+    "prebuild": "bun ./build.js",
+    "build": "js-compute-runtime bin/index.js bin/main.wasm",
+    "deploy": "fastly compute publish",
+    "vite": "vite build"
+  },
+  "devDependencies": {
+    "esbuild": "^0.21.5"
+  },
+  "dependencies": {
+    "@fastly/js-compute": "3.7.0",
+    "hono": "^4.5.11",
+    "remix-hono": "^0.0.16"
+  }
+}
