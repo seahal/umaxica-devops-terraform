@@ -2,12 +2,12 @@
 # https://www.fastly.com/documentation/reference/compute/fastly-toml
 
 authors = [""]
-description = ""
+description = "learning hono"
 language = "javascript"
 manifest_version = 2
 name = "Hono"
 service_id = "hkZAs7u4eE247BqEpEKfP1"
 
 [scripts]
-  build = "npm run build"
-  post_init = "npm install"
+  build = "bun run build"
+  post_init = "bun install"
