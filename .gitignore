@@ -131,3 +131,7 @@ dist
 .idea/
 bin/
 pkg/
+
+# added by croner
+.DS_Store
+src/.DS_Store

@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "@fastly/js-compute": "3.7.0",
-    "hono": "^4.5.11",
+    "fastly": "^7.9.0",
+    "hono": "^4.6.1",
     "remix-hono": "^0.0.16"
   }
 }
