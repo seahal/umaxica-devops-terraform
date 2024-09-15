@@ -1,4 +1,4 @@
-import { Hono } from 'hono/quick'
+import { Hono } from 'hono'
 
 const app = new Hono()
 
@@ -16,5 +16,21 @@ app.get('/api/:id', (c) => {
                     console.log(id);
                     return c.json({ok: true, message: 'hello, world!', id:  `${id}`});
 })
+
+app.notFound((c) => {
+    return c.text('Custome 404 ???', 404)
+})
+
+app.all('/get', (c) => {
+    return c.text('all/')
+});
+
+app.on('GET', '/efg', (c) => {
+    return c.text('efg/')
+});
+
+app.on(['GET', 'POST'], ['/en/fun/:id', '/ja/fun/:id'], (c) => {
+    return·c.text(`fun:·$c.req.param('id')`)
+});
 
 app.fire()

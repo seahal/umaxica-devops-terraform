@@ -8,6 +8,7 @@
     "vite": "vite build"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.9.0",
     "esbuild": "^0.21.5"
   },
   "dependencies": {
