@@ -1,6 +1,6 @@
 ```
-npm install
-npm run dev
+bun install
+bun run dev
 ```
 
 ```
@@ -8,5 +8,5 @@ open http://localhost:7676
 ```
 
 ```
-npm run deploy
+bun run deploy
 ```
