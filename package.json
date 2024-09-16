@@ -2,12 +2,13 @@
   "name": "hono",
   "scripts": {
       "dev": "fastly compute serve --watch",
+      "dev:bun": "",
       "prebuild": "bun ./build.js",
       "build": "js-compute-runtime bin/index.js bin/main.wasm",
       "deploy": "fastly compute publish",
-      "lint": "bun x biome lint --write ./src",
-      "format": "bun x biome format --write ./src",
-      "check": "bun x biome check --write ./src"
+      "lint": "bun x biome lint --write ./src ./test",
+      "format": "bun x biome format --write ./src ./test",
+      "check": "bun x biome check --write ./src ./test"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.0",
