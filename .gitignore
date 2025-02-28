@@ -135,3 +135,4 @@ pkg/
 # added by croner
 .DS_Store
 src/.DS_Store
+src/.tfstate
