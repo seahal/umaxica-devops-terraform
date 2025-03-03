@@ -1,2 +1,2 @@
 # UMAXICA(Terraform)
-
+I DO NOT KNOW HOW TO USE TERRAFORM, lol :-P
