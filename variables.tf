@@ -1,13 +1,11 @@
 variable "region" {
   description = "do not forget to set region"
-  nullable = false
-  type = string
-  default = "ap-northeast-1"
+  nullable    = false
+  type        = string
 }
 
 variable "cloudflare_api_token" {
   description = "api token of cloudflare"
-  nullable = false
-  type = string
-  default = ""
+  nullable    = false
+  type        = string
 }

@@ -5,7 +5,6 @@ provider "aws" {
 }
 
 provider "fastly" {
-
 }
 
 provider "cloudflare" {
