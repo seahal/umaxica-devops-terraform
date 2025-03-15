@@ -22,5 +22,9 @@ terraform {
       source  = "sacloud/sakuracloud"
       version = "2.26.1"
     }
+    docker = {
+      source  = "kreuzwerker/docker"
+      version = "~> 3.0.1"
+    }
   }
 }

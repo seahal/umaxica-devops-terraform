@@ -3,5 +3,4 @@ resource "aws_s3_bucket" "umaxica_jit" {
   tags = {
     Environment = "Production"
   }
-
 }
