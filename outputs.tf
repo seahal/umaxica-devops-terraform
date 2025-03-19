@@ -4,5 +4,5 @@ output "bucket_name" {
 
 output "example" {
   description = "value"
-  value = aws_s3_bucket.access_log.tags.Environment
+  value       = aws_s3_bucket.access_log.tags.Environment
 }
