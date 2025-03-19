@@ -4,6 +4,15 @@ variable "region" {
   type        = string
 }
 
+variable "environment" {
+  description = "The target environment"
+  type        = string
+  default     = "production"
+  validation {
+    condition     = contains(["production", "staging"], var.environment)
+    error_message = "Environment must be either 'staging' or 'production'."
+  }
+}
 
 # variable "cloudflare_tunsile_api_token" {
 #   description = "api token of cloudflare"

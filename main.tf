@@ -24,10 +24,17 @@
 # }
 
 resource "aws_instance" "app_server" {
-  ami = "ami-830c94e3"
+  ami           = "ami-830c94e3"
   instance_type = "t2.micro"
 
   tags = {
     Name = "ExampleAppServerInstance"
+  }
+}
+
+resource "aws_s3_bucket" "example" {
+  bucket = "${var.environment}.my.learning.jejaeif"
+  tags = {
+    Environment = var.environment
   }
 }
