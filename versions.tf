@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 1.10.5"
+  required_version = ">= 1.11.2"
 
   required_providers {
     aws = {
@@ -21,10 +21,6 @@ terraform {
     sakuracloud = {
       source  = "sacloud/sakuracloud"
       version = "2.26.1"
-    }
-    docker = {
-      source  = "kreuzwerker/docker"
-      version = "~> 3.0.1"
     }
   }
 }

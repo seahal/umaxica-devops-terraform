@@ -1,17 +1,17 @@
 
 
-resource "aws_s3_bucket" "example" {
-  bucket = "umaxica.app"
-}
+# resource "aws_s3_bucket" "example" {
+#   bucket = "umaxica.app"
+# }
 
-resource "aws_s3_bucket" "cloudfront_functions" {
-  bucket = "umaxica.cloudfront.functions"
+# resource "aws_s3_bucket" "cloudfront_functions" {
+#   bucket = "umaxica.cloudfront.functions"
 
-  tags = {
-    Name        = "snipets for cloudfront functions"
-    Environment = "Production"
-  }
-}
+#   tags = {
+#     Name        = "snipets for cloudfront functions"
+#     Environment = "Production"
+#   }
+# }
 
 # module "key_pair" {
 #   source  = "terraform-aws-modules/key-pair/aws"
@@ -22,3 +22,12 @@ resource "aws_s3_bucket" "cloudfront_functions" {
 
 #   tags = local.tags
 # }
+
+resource "aws_instance" "app_server" {
+  ami = "ami-830c94e3"
+  instance_type = "t2.micro"
+
+  tags = {
+    Name = "ExampleAppServerInstance"
+  }
+}
