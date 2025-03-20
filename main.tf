@@ -28,6 +28,9 @@ resource "aws_s3_bucket" "s3_bucket_of_jp_cloudfront_functions" {
   tags = {
     Environment = var.environment
   }
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 resource "aws_s3_bucket_versioning" "s3_bucket_of_jp_cloudfront_functions" {
   bucket = aws_s3_bucket.s3_bucket_of_jp_cloudfront_functions.id
@@ -41,6 +44,9 @@ resource "aws_s3_bucket" "asset_files_of_jp_jit_server" {
   tags = {
     Environment = var.environment
   }
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 resource "aws_s3_bucket_versioning" "asset_files_of_jp_jit_server_versioning" {
   bucket = aws_s3_bucket.asset_files_of_jp_jit_server.id
@@ -52,6 +58,9 @@ resource "aws_s3_bucket" "access_log_all_files" {
   bucket = "${var.environment}.log.all.umaxica"
   tags = {
     Environment = var.environment
+  }
+  lifecycle {
+    prevent_destroy = true
   }
 }
 resource "aws_s3_bucket_versioning" "access_log_all_files_versioning" {
