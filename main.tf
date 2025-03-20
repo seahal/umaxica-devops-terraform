@@ -23,18 +23,52 @@
 #   tags = local.tags
 # }
 
-resource "aws_instance" "app_server" {
-  ami           = "ami-830c94e3"
-  instance_type = "t2.micro"
-
+resource "aws_s3_bucket" "s3_bucket_of_jp_cloudfront_functions" {
+  bucket = "${var.environment}.cff.jp.net.umaxica"
   tags = {
-    Name = "ExampleAppServerInstance"
+    Environment = var.environment
+  }
+}
+resource "aws_s3_bucket_versioning" "s3_bucket_of_jp_cloudfront_functions" {
+  bucket = aws_s3_bucket.s3_bucket_of_jp_cloudfront_functions.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
-resource "aws_s3_bucket" "example" {
-  bucket = "${var.environment}.my.learning.jejaeif"
+resource "aws_s3_bucket" "asset_files_of_jp_jit_server" {
+  bucket = "${var.environment}.asset.jp.net.umaxica"
   tags = {
     Environment = var.environment
+  }
+}
+resource "aws_s3_bucket_versioning" "asset_files_of_jp_jit_server_versioning" {
+  bucket = aws_s3_bucket.asset_files_of_jp_jit_server.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+resource "aws_s3_bucket" "access_log_all_files" {
+  bucket = "${var.environment}.log.all.umaxica"
+  tags = {
+    Environment = var.environment
+  }
+}
+resource "aws_s3_bucket_versioning" "access_log_all_files_versioning" {
+  bucket = aws_s3_bucket.access_log_all_files.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+resource "aws_s3_bucket" "access_log_jp_files" {
+  bucket = "${var.environment}.log.jp.umaxica"
+  tags = {
+    Environment = var.environment
+  }
+}
+resource "aws_s3_bucket_versioning" "access_log_jp_files_versioning" {
+  bucket = aws_s3_bucket.access_log_jp_files.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
