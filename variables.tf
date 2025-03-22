@@ -25,3 +25,15 @@ variable "environment" {
 #   nullable    = true
 #   type        = string
 # }
+
+variable "cloudflare_api_token" {
+  default     = ""
+  type        = string
+  description = "Cloudflare API Token"
+}
+
+variable "cloudflare_account_id" {
+  default     = ""
+  description = "cloudflare account id"
+  type        = string
+}

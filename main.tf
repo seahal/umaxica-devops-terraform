@@ -81,3 +81,27 @@ resource "aws_s3_bucket_versioning" "access_log_jp_files_versioning" {
     status = "Enabled"
   }
 }
+
+resource "aws_s3_bucket" "static_page_jp_bucket" {
+  bucket = "staticpage.jp.staging.umaxica"
+  tags = {
+    Environment = var.environment
+  }
+}
+resource "aws_s3_bucket_versioning" "static_page_jp_files_versioning" {
+  bucket = aws_s3_bucket.static_page_jp_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+resource "aws_s3_bucket_website_configuration" "site" {
+  bucket = aws_s3_bucket.static_page_jp_bucket.id
+
+  index_document {
+    suffix = "index.html"
+  }
+
+  error_document {
+    key = "error.html"
+  }
+}
