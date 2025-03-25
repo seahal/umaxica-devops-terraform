@@ -18,9 +18,9 @@ terraform {
       source  = "fastly/fastly"
       version = "5.17.0"
     }
-    sakuracloud = {
-      source  = "sacloud/sakuracloud"
-      version = "2.26.1"
+    vercel = {
+      source  = "vercel/vercel"
+      version = "~> 2.0"
     }
   }
 }
