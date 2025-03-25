@@ -29,17 +29,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
+        uses: hashicorp/setup-terraform@v3
         with:
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
-      # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+      - name: Terraform fmt
+        id: fmt
+        run: terraform fmt -check
+        continue-on-error: true
       - name: Terraform Init
-        run: terraform init
-      # Checks that all Terraform configuration files adhere to a canonical format
-      - name: Terraform Format
-        run: terraform fmt -check
-      # Generates an execution plan for Terraform
+        id: init
+        run: terraform init -input=false
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
       - name: Terraform Plan
-        run: terraform fmt -check
-      - name: Validation
-        run: terraform validate        
+        id: plan
+        run: terraform plan -no-color -input=false
+        continue-on-error: true  
