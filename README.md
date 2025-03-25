@@ -1,3 +1,5 @@
+[![CI](https://github.com/seahal/umaxica-devops-terraform/actions/workflows/integration.yml/badge.svg?branch=main)](https://github.com/seahal/umaxica-devops-terraform/actions/workflows/integration.yml)
+
 # UMAXICA(Terraform)
 I DO NOT KNOW HOW TO USE TERRAFORM, lol :-P
 
