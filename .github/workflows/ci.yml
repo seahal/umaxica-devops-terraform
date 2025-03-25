@@ -28,8 +28,6 @@ jobs:
       # Checkout the repository to the GitHub Actions runner
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Validation
-        run: terraform validate
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
@@ -43,3 +41,5 @@ jobs:
       # Generates an execution plan for Terraform
       - name: Terraform Plan
         run: terraform fmt -check
+      - name: Validation
+        run: terraform validate        
