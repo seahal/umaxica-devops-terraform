@@ -39,3 +39,4 @@ terraform.rc
 
 # added by user
 .envrc
+.DS_Store.DS_Store
