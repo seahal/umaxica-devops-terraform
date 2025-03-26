@@ -1,19 +1,4 @@
-# bucket for terraform.tfstate
-resource "aws_s3_bucket" "umaxica_production_terraform_backend_bucket" {
-  bucket = "umaxica.production.terraform.backend"
-  tags = {
-    Environment = var.environment
-  }
-  lifecycle {
-    prevent_destroy = true
-  }
-}
-resource "aws_s3_bucket_versioning" "umaxica_production_terraform_backend_versioning" {
-  bucket = aws_s3_bucket.umaxica_production_terraform_backend_bucket.id
-  versioning_configuration {
-    status = "Enabled"
-  }
-}
+
 
 
 # Access Log for root layer
