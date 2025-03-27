@@ -13,6 +13,5 @@ provider "cloudflare" {
 }
 
 provider "vercel" {
-
   api_token = var.cloudflare_api_token
 }

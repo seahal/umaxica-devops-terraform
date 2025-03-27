@@ -8,7 +8,3 @@ terraform {
     use_lockfile = true # 本設定にてS3のみでロックが可能
   }
 }
-
-resource "aws_s3_bucket" "tfstate" {
-  bucket = "umaxica.production.terraform.backend"
-}
