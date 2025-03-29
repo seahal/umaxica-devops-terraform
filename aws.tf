@@ -3,16 +3,16 @@ variable "environments" {
   default = ["production", "staging"]
 }
 
-variable "domains" {
-  default = ["com", "net", "app", "org"]
+variable "subdomains" {
+  default = ["www", "api"]
 }
 
 variable "regions" {
   default = ["jp", "root"]
 }
 
-variable "subdomains" {
-  default = ["www", "api"]
+variable "domains" {
+  default = ["com", "net", "app", "org"]
 }
 
 variable "entities" {
@@ -24,16 +24,16 @@ locals {
   # バケット名の組み合わせを生成
   bucket_combinations = flatten([
     for env in var.environments : [
-      for entity in var.domains : [
-        for subdomain in var.regions : [
-          for region in var.subdomains : [
-            for domain in var.entities : {
-              env       = env
-              entity    = entity
-              subdomain = subdomain
-              region    = region
-              domain    = domain
-              bucket_name = "umaxica.${env}.cloudfront.${entity}.${subdomain}.${region}.${domain}"
+      for subdomain in var.subdomains : [
+        for region in var.regions : [
+          for domain in var.domains : [
+            for entity in var.entities : {
+              env         = env
+              entity      = entity
+              subdomain   = subdomain
+              region      = region
+              domain      = domain
+              bucket_name = "umaxica.${env}.cloudfront.${subdomain}.${region}.${domain}.${entity}"
             }
           ]
         ]
@@ -93,7 +93,7 @@ resource "aws_s3_bucket" "access_log_buckets" {
   }
 
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
   }
 }
 # versioning
