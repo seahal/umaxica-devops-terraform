@@ -19,6 +19,10 @@ variable "entities" {
   default = ["public", "maintenance", "errors", "functions"]
 }
 
+variable "mimes" {
+  default = ["ogp"]
+}
+
 # main.tf
 locals {
   # バケット名の組み合わせを生成
@@ -93,12 +97,50 @@ resource "aws_s3_bucket" "access_log_buckets" {
   }
 
   lifecycle {
-    prevent_destroy = false
+    prevent_destroy = true
   }
 }
 # versioning
 resource "aws_s3_bucket_versioning" "access_log_buckets_versioning" {
   for_each = aws_s3_bucket.access_log_buckets
+
+  bucket = each.value.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+# combination of aot
+locals {
+  buckts_of_aot_combinations = flatten([
+    for env in var.environments : [
+      for region in var.regions : [
+        for mime in var.mimes : {
+          env         = env
+          region      = region
+          mime        = mime
+          bucket_name = "umaxica.${env}.aot.${region}.app.${mime}"
+        }
+    ]]
+  ])
+}
+# s3 buckts for access log
+resource "aws_s3_bucket" "aot_buckets" {
+  for_each = { for combo in local.buckts_of_aot_combinations : combo.bucket_name => combo }
+
+  bucket = each.value.bucket_name
+  tags = {
+    Environment = each.value.env
+    Region      = each.value.region
+  }
+
+  lifecycle {
+    prevent_destroy = false
+  }
+}
+# versioning
+resource "aws_s3_bucket_versioning" "aot_buckets_versioning" {
+  for_each = aws_s3_bucket.aot_buckets
 
   bucket = each.value.id
   versioning_configuration {
