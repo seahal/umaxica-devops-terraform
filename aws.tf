@@ -23,6 +23,10 @@ variable "mimes" {
   default = ["ogp"]
 }
 
+variable "layers" {
+  default = ["access", "audit", "var"]
+}
+
 # main.tf
 locals {
   # バケット名の組み合わせを生成
@@ -77,11 +81,14 @@ resource "aws_s3_bucket_versioning" "buckets_versioning" {
 locals {
   access_log_combinations = flatten([
     for env in var.environments : [
-      for region in var.regions : {
-        env         = env
-        region      = region
-        bucket_name = "umaxica.${env}.log.access.${region}"
-      }
+      for layer in var.layers : [
+        for region in var.regions : {
+          env         = env
+          region      = region
+          layer       = layer
+          bucket_name = "umaxica.${env}.log.${layer}.${region}"
+        }
+      ]
     ]
   ])
 }
