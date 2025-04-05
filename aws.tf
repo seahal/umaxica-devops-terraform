@@ -1,6 +1,6 @@
 # variables.tf
 variable "environments" {
-  default = ["production", "staging"]
+  default = ["production"]
 }
 
 variable "subdomains" {
@@ -20,7 +20,7 @@ variable "entities" {
 }
 
 variable "mimes" {
-  default = ["ogp"]
+  default = ["ogp", "docs", "news"]
 }
 
 variable "layers" {
@@ -41,7 +41,7 @@ locals {
               subdomain   = subdomain
               region      = region
               domain      = domain
-              bucket_name = "umaxica.${env}.cloudfront.${subdomain}.${region}.${domain}.${entity}"
+              bucket_name = "umaxica.${env}.cloudfront.${region}.${subdomain}.${domain}.${entity}"
             }
           ]
         ]
@@ -50,8 +50,10 @@ locals {
   ])
 }
 
+
+
 # define s3 resource 
-resource "aws_s3_bucket" "buckets" {
+resource "aws_s3_bucket" "cloudfront_buckets" {
   for_each = { for combo in local.bucket_combinations : combo.bucket_name => combo }
 
   bucket = each.value.bucket_name
@@ -64,17 +66,34 @@ resource "aws_s3_bucket" "buckets" {
   }
 
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
   }
 }
 # versioning
-resource "aws_s3_bucket_versioning" "buckets_versioning" {
-  for_each = aws_s3_bucket.buckets
-
+resource "aws_s3_bucket_versioning" "cloudfront_buckets_versioning" {
+  for_each = aws_s3_bucket.cloudfront_buckets
   bucket = each.value.id
+
   versioning_configuration {
     status = "Enabled"
   }
+}
+resource "aws_s3_bucket_public_access_block" "cloudfront_buckets_block" {
+  for_each = aws_s3_bucket.cloudfront_buckets
+  bucket   = each.value.id
+  
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+resource "aws_cloudfront_origin_access_control" "cloudfront_buckets_access_controll" {
+  for_each = aws_s3_bucket.cloudfront_buckets
+  name = each.value.id
+
+  origin_access_control_origin_type = "s3"
+  signing_behavior = "always"
+  signing_protocol = "sigv4"
 }
 
 # combination of access logs
@@ -104,7 +123,7 @@ resource "aws_s3_bucket" "access_log_buckets" {
   }
 
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
   }
 }
 # versioning
@@ -114,6 +133,33 @@ resource "aws_s3_bucket_versioning" "access_log_buckets_versioning" {
   bucket = each.value.id
   versioning_configuration {
     status = "Enabled"
+  }
+}
+resource "aws_s3_bucket_public_access_block" "access_log_buckets_block" {
+  for_each = aws_s3_bucket.access_log_buckets
+  bucket   = each.value.id
+  
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "access_log_buckets_lifecycle" {
+  for_each = aws_s3_bucket.access_log_buckets
+  bucket =  each.value.id
+
+  rule {
+    id = "log"
+    status = "Enabled"
+
+    filter {
+      prefix = ""
+    }
+
+    expiration {
+      days = 365
+    }
   }
 }
 
@@ -131,7 +177,7 @@ locals {
     ]]
   ])
 }
-# s3 buckts for access log
+# s3 buckts for aot log
 resource "aws_s3_bucket" "aot_buckets" {
   for_each = { for combo in local.buckts_of_aot_combinations : combo.bucket_name => combo }
 
@@ -153,4 +199,13 @@ resource "aws_s3_bucket_versioning" "aot_buckets_versioning" {
   versioning_configuration {
     status = "Enabled"
   }
+}
+resource "aws_s3_bucket_public_access_block" "aot_buckets_block" {
+  for_each = aws_s3_bucket.aot_buckets
+  bucket   = each.value.id
+  
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
 }

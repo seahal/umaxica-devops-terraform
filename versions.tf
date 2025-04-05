@@ -18,9 +18,9 @@ terraform {
       source  = "fastly/fastly"
       version = "5.17.0"
     }
-    vercel = {
-      source  = "vercel/vercel"
-      version = "~> 2.0"
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.24.0"
     }
   }
 }
