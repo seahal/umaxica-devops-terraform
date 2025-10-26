@@ -28,11 +28,11 @@ locals {
         for subdomain in var.regions : [
           for region in var.subdomains : [
             for domain in var.entities : {
-              env       = env
-              entity    = entity
-              subdomain = subdomain
-              region    = region
-              domain    = domain
+              env         = env
+              entity      = entity
+              subdomain   = subdomain
+              region      = region
+              domain      = domain
               bucket_name = "umaxica.${env}.cloudfront.${entity}.${subdomain}.${region}.${domain}"
             }
           ]
