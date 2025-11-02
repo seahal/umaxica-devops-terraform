@@ -1,0 +1,37 @@
+services:
+  devcontainer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    volumes:
+      # ワークスペースのマウント
+      - ..:/workspace:cached
+
+      # Git 設定の共有
+      - ~/.gitconfig:/home/vscode/.gitconfig:ro
+
+      # SSH 鍵の共有 (必要に応じて)
+      - ~/.ssh:/home/vscode/.ssh:ro
+
+      # AWS 認証情報の共有
+      - ~/.aws:/home/vscode/.aws:ro
+
+      # GCP 認証情報の共有
+      - ~/.config/gcloud:/home/vscode/.config/gcloud:ro
+
+      # Terraform プラグインキャッシュ
+      - terraform-cache:/home/vscode/.terraform.d/plugin-cache
+
+    # 環境変数
+    environment:
+      - TF_PLUGIN_CACHE_DIR=/home/vscode/.terraform.d/plugin-cache
+
+    # コンテナを起動し続ける
+    command: sleep infinity
+
+    # ネットワーク設定
+    network_mode: host
+
+volumes:
+  terraform-cache:
