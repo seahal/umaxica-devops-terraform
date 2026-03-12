@@ -1,29 +1,16 @@
-variable "region" {
-  description = "do not forget to set region"
-  nullable    = false
+variable "gcp_project" {
   type        = string
+  description = "GCP project ID to use for Google provider."
 }
 
-# variable "cloudflare_tunsile_api_token" {
-#   description = "api token of cloudflare"
-#   nullable    = true
-#   type        = string
-# }
-
-# variable "cloudflare_api_token" {
-#   description = ""
-#   nullable    = true
-#   type        = string
-# }
+variable "region" {
+  type        = string
+  description = "Cloud region (e.g. asia-northeast1, ap-northeast-1, etc.)."
+}
 
 variable "cloudflare_api_token" {
-  description = "Cloudflare API Token"
-  default     = ""
   type        = string
+  description = "Cloudflare API token with permissions to manage zones/settings."
+  sensitive   = true
 }
 
-variable "cloudflare_account_id" {
-  description = "cloudflare account id"
-  default     = ""
-  type        = string
-}
