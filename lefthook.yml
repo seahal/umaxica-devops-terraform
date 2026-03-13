@@ -1,4 +1,4 @@
 pre-commit:
   jobs:
     - name: format
-      run: terraform fmt
+      run: tofu fmt
