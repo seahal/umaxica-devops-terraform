@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "tfstate" {
-  bucket = "umaxica-terraform-state"
+  bucket = "tfstate-203276832454-ap-northeast-1-an"
 
   tags = {
     Environment = "admin"
