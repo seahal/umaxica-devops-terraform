@@ -2,11 +2,11 @@
 
 # UMAXICA (Terraform)
 
-Multi-cloud infrastructure managed with OpenTofu.
+Multi-cloud infrastructure managed with Terraform.
 
 ## Prerequisites
 
-- [OpenTofu](https://opentofu.org/) >= 1.9.0
+- [Terraform](https://www.terraform.io/) >= 1.9.0
 - [AWS CLI v2](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) (for SSO login)
 - [asdf](https://asdf-vm.com/)
 - [Lefthook](https://github.com/evilmartians/lefthook)
@@ -25,20 +25,20 @@ aws sso login --profile stg
 aws sso login --profile prod
 ```
 
-## Running OpenTofu
+## Running Terraform
 
-Each directory under `live/` is an independent OpenTofu root. Use `-chdir` to target the environment you want to operate on.
+Each directory under `live/` is an independent Terraform root. Use `-chdir` to target the environment you want to operate on.
 
 ```bash
 # Staging
-tofu -chdir=live/stg/aws/ap-northeast-1/app plan
-tofu -chdir=live/stg/cloudflare plan
-tofu -chdir=live/stg/vercel plan
+terraform -chdir=live/stg/aws/ap-northeast-1/app plan
+terraform -chdir=live/stg/cloudflare plan
+terraform -chdir=live/stg/vercel plan
 
 # Production
-tofu -chdir=live/prod/aws/ap-northeast-1/app plan
-tofu -chdir=live/prod/cloudflare plan
-tofu -chdir=live/prod/vercel plan
+terraform -chdir=live/prod/aws/ap-northeast-1/app plan
+terraform -chdir=live/prod/cloudflare plan
+terraform -chdir=live/prod/vercel plan
 ```
 
 Replace `plan` with `apply` to apply changes, or `init` for first-time setup.

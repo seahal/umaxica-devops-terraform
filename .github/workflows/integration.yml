@@ -28,19 +28,19 @@ jobs:
       # Checkout the repository to the GitHub Actions runner
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup OpenTofu
-        uses: opentofu/setup-opentofu@v1
-      - name: OpenTofu fmt
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+      - name: Terraform fmt
         id: fmt
-        run: tofu fmt -check
+        run: terraform fmt -check
         continue-on-error: true
-      - name: OpenTofu Init
+      - name: Terraform Init
         id: init
-        run: tofu init -input=false
-      - name: OpenTofu Validate
+        run: terraform init -input=false
+      - name: Terraform Validate
         id: validate
-        run: tofu validate -no-color
-      - name: OpenTofu Plan
+        run: terraform validate -no-color
+      - name: Terraform Plan
         id: plan
-        run: tofu plan -no-color -input=false
+        run: terraform plan -no-color -input=false
         continue-on-error: true
