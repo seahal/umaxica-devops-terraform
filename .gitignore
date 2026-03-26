@@ -39,6 +39,7 @@ terraform.rc
 
 # added by user
 .envrc
-.DS_Store.DS_Store
+.env
+.DS_Store
 .tool-versions
 .teraform.lock.hcl.DS_Store
