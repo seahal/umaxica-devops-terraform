@@ -25,6 +25,14 @@ aws sso login --profile stg
 aws sso login --profile prod
 ```
 
+## Cloudflare Auth
+
+Use a Cloudflare API token when operating `live/stg/cloudflare` or `live/prod/cloudflare`:
+
+```bash
+export CLOUDFLARE_API_TOKEN=...
+```
+
 ## Running Terraform
 
 Each directory under `live/` is an independent Terraform root. Use `-chdir` to target the environment you want to operate on.
@@ -32,8 +40,11 @@ Each directory under `live/` is an independent Terraform root. Use `-chdir` to t
 ```bash
 # Staging
 terraform -chdir=live/stg/aws/ap-northeast-1/app plan
-terraform -chdir=live/stg/cloudflare plan
 terraform -chdir=live/stg/vercel plan
+
+# Cloudflare staging uses the local token in live/stg/cloudflare/.env
+source live/stg/cloudflare/.env
+terraform -chdir=live/stg/cloudflare plan
 
 # Production
 terraform -chdir=live/prod/aws/ap-northeast-1/app plan
