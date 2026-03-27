@@ -1,8 +1,17 @@
 locals {
+  zones = {
+    "umaxica.app" = "689f76e1f7509c1aa8f223425b5d6a39"
+    "umaxica.com" = "5d6e1d349e3c48b25feca13b497f9c99"
+    "umaxica.net" = "d1c2e765f7b5c9b343f7e03a31d91ecf"
+    "umaxica.org" = "771b6a675b8758959117a2874e828d21"
+  }
+
   app_workers = toset([
     "umaxica-apps-edge-app-docs",
     "umaxica-apps-edge-app-help",
     "umaxica-apps-edge-app-news",
+    "umaxica-apps-edge-com-news",
+    "umaxica-apps-edge-org-news",
   ])
 
   workers = toset([
@@ -15,6 +24,33 @@ locals {
     "umaxica-apps-edge-org-core",
   ])
 }
+
+# =============================================================================
+# Zones
+# =============================================================================
+
+resource "cloudflare_zone" "zones" {
+  for_each = local.zones
+
+  account = {
+    id = var.account_id
+  }
+  name = each.key
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+import {
+  for_each = local.zones
+  to       = cloudflare_zone.zones[each.key]
+  id       = each.value
+}
+
+# =============================================================================
+# Workers
+# =============================================================================
 
 resource "cloudflare_workers_script" "workers" {
   for_each = local.workers
