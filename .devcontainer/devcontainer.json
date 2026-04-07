@@ -1,0 +1,59 @@
+{
+  "name": "Terraform Development",
+  "dockerComposeFile": "compose.yml",
+  "service": "devcontainer",
+  "workspaceFolder": "/workspace",
+
+  // コンテナ作成後に実行するコマンド
+  "postCreateCommand": "terraform --version && aws --version && gcloud version",
+
+  // VS Code の設定
+  "customizations": {
+    "vscode": {
+      // 推奨拡張機能
+      "extensions": [
+        "hashicorp.terraform",
+        "ms-azuretools.vscode-docker",
+        "eamodio.gitlens",
+        "github.vscode-pull-request-github",
+        "redhat.vscode-yaml",
+        "esbenp.prettier-vscode"
+      ],
+
+      // VS Code の設定
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "files.eol": "\n",
+        "editor.formatOnSave": true,
+        "editor.tabSize": 2,
+        "[terraform]": {
+          "editor.defaultFormatter": "hashicorp.terraform",
+          "editor.formatOnSave": true,
+          "editor.formatOnSaveMode": "file"
+        },
+        "[terraform-vars]": {
+          "editor.defaultFormatter": "hashicorp.terraform",
+          "editor.formatOnSave": true,
+          "editor.formatOnSaveMode": "file"
+        },
+        "terraform.languageServer.enable": true,
+        "terraform.validation.enable": true
+      }
+    }
+  },
+
+  // フォワードするポート (必要に応じて追加)
+  "forwardPorts": [],
+
+  // コンテナ起動時の機能
+  "features": {},
+
+  // マウントするボリューム
+  "mounts": [
+    // Terraform プラグインキャッシュの永続化
+    "source=terraform-plugin-cache,target=/home/vscode/.terraform.d/plugin-cache,type=volume"
+  ],
+
+  // コンテナのユーザー
+  "remoteUser": "root"
+}
