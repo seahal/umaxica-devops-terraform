@@ -37,6 +37,10 @@ override.tf.json
 terraform.rc
 
 
+# Terraform plan output
+tfplan
+*tfplan*
+
 # added by user
 .envrc
 .env
