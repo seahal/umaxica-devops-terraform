@@ -33,13 +33,27 @@ resource "cloudflare_worker" "workers" {
 
   observability = {
     enabled            = true
-    head_sampling_rate = 0.2
+    head_sampling_rate = 1
     logs = {
       enabled            = true
-      head_sampling_rate = 0.2
+      head_sampling_rate = 1
       invocation_logs    = true
       persist            = true
     }
+  }
+
+  subdomain = {
+    enabled          = false
+    previews_enabled = false
+  }
+
+  tags = [
+    "cf:environment=production",
+    "cf:service=${each.key}",
+  ]
+
+  lifecycle {
+    prevent_destroy = true
   }
 }
 

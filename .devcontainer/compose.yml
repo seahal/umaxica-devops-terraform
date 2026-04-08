@@ -1,37 +1,56 @@
+name: terraform
+
 services:
   devcontainer:
     build:
-      context: .
-      dockerfile: Dockerfile
-
-    volumes:
-      # ワークスペースのマウント
-      - ..:/workspace:cached
-
-      # Git 設定の共有
-      - ~/.gitconfig:/home/vscode/.gitconfig:ro
-
-      # SSH 鍵の共有 (必要に応じて)
-      - ~/.ssh:/home/vscode/.ssh:ro
-
-      # AWS 認証情報の共有
-      - ~/.aws:/home/vscode/.aws:ro
-
-      # GCP 認証情報の共有
-      - ~/.config/gcloud:/home/vscode/.config/gcloud:ro
-
-      # Terraform プラグインキャッシュ
-      - terraform-cache:/home/vscode/.terraform.d/plugin-cache
-
-    # 環境変数
-    environment:
-      - TF_PLUGIN_CACHE_DIR=/home/vscode/.terraform.d/plugin-cache
-
-    # コンテナを起動し続ける
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+      args:
+        DOCKER_UID: ${UID:-1000}
+        DOCKER_GID: ${GID:-1000}
+        DOCKER_USER: devcontainer
+        DOCKER_GROUP: devcontainer
+        TERRAFORM_VERSION: 1.11.2
+        TFLINT_VERSION: 0.53.0
+        TERRAFORM_DOCS_VERSION: 0.19.0
+        NODE_MAJOR: 22
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    init: true
+    tty: true
+    stdin_open: true
     command: sleep infinity
-
-    # ネットワーク設定
-    network_mode: host
+    environment:
+      TF_IN_AUTOMATION: "1"
+      TF_PLUGIN_CACHE_DIR: /home/devcontainer/.terraform.d/plugin-cache
+      AWS_PAGER: ""
+      CLOUDSDK_CORE_DISABLE_PROMPTS: "1"
+    volumes:
+      - type: bind
+        source: ..
+        target: /workspace
+        consistency: cached
+      - type: bind
+        source: ${HOME}/.gitconfig
+        target: /home/devcontainer/.gitconfig
+        read_only: true
+      - type: bind
+        source: ${HOME}/.ssh
+        target: /home/devcontainer/.ssh
+        read_only: true
+      - type: bind
+        source: ${HOME}/.aws
+        target: /home/devcontainer/.aws
+        read_only: true
+      - type: bind
+        source: ${HOME}/.config/gcloud
+        target: /home/devcontainer/.config/gcloud
+        read_only: true
+      - type: volume
+        source: terraform-cache
+        target: /home/devcontainer/.terraform.d/plugin-cache
+        volume:
+          nocopy: true
 
 volumes:
   terraform-cache:
