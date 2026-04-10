@@ -62,18 +62,12 @@ locals {
       type      = "TXT"
       zone_name = "umaxica.com"
     }
-    "umaxica-com-wildcard-dkim" = {
-      content   = "v=DKIM1; p="
-      name      = "*._domainkey.umaxica.com"
-      ttl       = 1
-      type      = "TXT"
-      zone_name = "umaxica.com"
-    }
     "umaxica-org-dkim-zkuw6fb6qfkilfweh7hea5pzm4pjdg5j" = {
       content   = "zkuw6fb6qfkilfweh7hea5pzm4pjdg5j.dkim.amazonses.com"
       name      = "zkuw6fb6qfkilfweh7hea5pzm4pjdg5j._domainkey.umaxica.org"
+      proxied   = false
       ttl       = 1
-      type      = "TXT"
+      type      = "CNAME"
       zone_name = "umaxica.org"
     }
   }
