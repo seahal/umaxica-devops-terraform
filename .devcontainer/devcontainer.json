@@ -3,14 +3,10 @@
   "dockerComposeFile": "compose.yml",
   "service": "devcontainer",
   "workspaceFolder": "/workspace",
-
-  // コンテナ作成後に実行するコマンド
-  "postCreateCommand": "terraform --version && aws --version && gcloud version",
-
-  // VS Code の設定
+  "remoteUser": "devcontainer",
+  "postCreateCommand": "terraform --version && tflint --version && terraform-docs --version && aws --version && gcloud version && vercel --version && lefthook version && pre-commit --version",
   "customizations": {
     "vscode": {
-      // 推奨拡張機能
       "extensions": [
         "hashicorp.terraform",
         "ms-azuretools.vscode-docker",
@@ -19,8 +15,6 @@
         "redhat.vscode-yaml",
         "esbenp.prettier-vscode"
       ],
-
-      // VS Code の設定
       "settings": {
         "terminal.integrated.defaultProfile.linux": "bash",
         "files.eol": "\n",
@@ -41,19 +35,6 @@
       }
     }
   },
-
-  // フォワードするポート (必要に応じて追加)
   "forwardPorts": [],
-
-  // コンテナ起動時の機能
-  "features": {},
-
-  // マウントするボリューム
-  "mounts": [
-    // Terraform プラグインキャッシュの永続化
-    "source=terraform-plugin-cache,target=/home/vscode/.terraform.d/plugin-cache,type=volume"
-  ],
-
-  // コンテナのユーザー
-  "remoteUser": "root"
+  "features": {}
 }

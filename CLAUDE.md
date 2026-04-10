@@ -14,11 +14,11 @@ Umaxica DevOps Terraform — multi-cloud infrastructure for the Umaxica platform
   - `aws-app/` — S3 static site bucket (versioning + website config)
   - `aws-network/` — AWS networking (skeleton)
   - `gcp-cloud-run/` — GCP Cloud Run (skeleton)
-- **`live/`** — environment + cloud + region directory tree; each leaf is an independent Terraform root
-  - `live/{stg,prod}/aws/ap-northeast-1/{network,app}/` — AWS resources per environment
-  - `live/stg/gcp/asia-northeast1/storage/` — GCS buckets for staging
-- **Root `.tf` files** — shared providers (`providers.tf`), version constraints (`versions.tf`), variables (`variables.tf`), locals, outputs, and Cloudflare config (`cloudflare.tf`)
-- **`s3backend/backend.tf`** — S3 remote state backend config (AWS `ap-northeast-1`, uses S3 native locking)
+- **`stacks/`** — environment + cloud + region directory tree; each leaf is an independent Terraform root
+  - `stacks/{stg,prod}/aws/ap-northeast-1/{app,state-backend}/` — AWS resources per environment
+  - `stacks/{stg,prod}/gcp/asia-northeast1/identity/` — GCP identity stacks
+  - `stacks/{stg,prod}/cloudflare/` and `stacks/{stg,prod}/vercel/` — edge platform stacks
+- **Per-stack `.tf` files** — each root owns its own `backend.tf`, `providers.tf`, `versions.tf`, and resource files
 - **`files/` / `templates/` / `scripts/`** — helper artifacts (currently placeholder `.keep` files)
 
 ## Common Commands
@@ -27,18 +27,18 @@ Umaxica DevOps Terraform — multi-cloud infrastructure for the Umaxica platform
 # Install toolchain (requires asdf)
 asdf install terraform 1.9.0 && asdf install tflint latest
 
-# Initialize a live environment
-terraform -chdir=live/stg/aws/ap-northeast-1/app init
-terraform -chdir=live/prod/aws/ap-northeast-1/app init
+# Initialize a stack
+terraform -chdir=stacks/stg/aws/ap-northeast-1/app init
+terraform -chdir=stacks/prod/aws/ap-northeast-1/app init
 
 # Plan (review before apply)
-terraform -chdir=live/stg/aws/ap-northeast-1/app plan
+terraform -chdir=stacks/stg/aws/ap-northeast-1/app plan
 
 # Format and lint
 terraform fmt -recursive              # auto-format all .tf files
 terraform fmt -check -recursive       # CI format check
 terraform validate                    # validate config
-tflint --chdir live/stg/aws/ap-northeast-1/app  # lint
+tflint --chdir stacks/stg/aws/ap-northeast-1/app  # lint
 yamlfmt .                        # format YAML files
 
 # Run pre-commit hooks manually
@@ -58,7 +58,7 @@ Terraform >= 1.9.0. Required providers: google (~> 7.0), aws (~> 5.0), azurerm (
 
 ## CI
 
-GitHub Actions (`.github/workflows/integration.yml`) runs on push to `main`/`develop` and PRs to `main`: `terraform fmt -check` → `terraform init` → `terraform validate` → `terraform plan`.
+GitHub Actions (`.github/workflows/integration.yml`) runs on push to `main`/`develop` and PRs to `main`: `terraform fmt -check -recursive` → `terraform init -backend=false` → `terraform validate`.
 
 ## Git Workflow
 
