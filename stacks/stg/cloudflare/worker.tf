@@ -84,4 +84,10 @@ resource "cloudflare_workers_deployment" "workers" {
     version_id = cloudflare_worker_version.workers[each.key].id
     percentage = 100
   }]
+
+  lifecycle {
+    # CI deploys real app code via wrangler; ignore version changes so Terraform
+    # does not revert deployments back to the bootstrap placeholder on next apply.
+    ignore_changes = [versions]
+  }
 }

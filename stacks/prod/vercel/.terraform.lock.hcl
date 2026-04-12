@@ -1,7 +1,7 @@
-# This file is maintained automatically by "tofu init".
+# This file is maintained automatically by "terraform init".
 # Manual edits may be lost in future updates.
 
-provider "registry.opentofu.org/vercel/vercel" {
+provider "registry.terraform.io/vercel/vercel" {
   version     = "1.14.1"
   constraints = "~> 1.0"
   hashes = [

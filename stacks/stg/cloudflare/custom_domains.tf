@@ -97,30 +97,11 @@ locals {
     }
   }
 
-  worker_custom_domain_existing = {
-    for domain in data.cloudflare_workers_custom_domains.workers.result :
-    "${domain.service}|${domain.hostname}|${domain.zone_id}" => domain
-  }
-
-  worker_custom_domain_imports = {
-    for key, config in local.worker_custom_domains :
-    key => local.worker_custom_domain_existing[
-      "${config.service}|${config.hostname}|${local.zones[config.zone_name]}"
-    ]
-    if contains(
-      keys(local.worker_custom_domain_existing),
-      "${config.service}|${config.hostname}|${local.zones[config.zone_name]}"
-    )
-  }
 }
 
 # =============================================================================
 # Worker Domains
 # =============================================================================
-
-data "cloudflare_workers_custom_domains" "workers" {
-  account_id = var.account_id
-}
 
 resource "cloudflare_workers_custom_domain" "workers" {
   for_each = local.worker_custom_domains
@@ -133,10 +114,4 @@ resource "cloudflare_workers_custom_domain" "workers" {
   lifecycle {
     ignore_changes = [environment]
   }
-}
-
-import {
-  for_each = local.worker_custom_domain_imports
-  to       = cloudflare_workers_custom_domain.workers[each.key]
-  id       = "${var.account_id}/${each.value.id}"
 }
