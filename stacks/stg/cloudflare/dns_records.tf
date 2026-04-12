@@ -83,9 +83,14 @@ locals {
 
   dns_record_imports = {
     for key, config in local.dns_records :
-    key => local.dns_record_existing[
-      "${config.zone_name}|${config.name}|${config.type}|${coalesce(try(config.content, null), "")}"
-    ]
+    key => merge(
+      config,
+      {
+        import_id = local.dns_record_existing[
+          "${config.zone_name}|${config.name}|${config.type}|${coalesce(try(config.content, null), "")}"
+        ].id
+      }
+    )
     if contains(
       keys(local.dns_record_existing),
       "${config.zone_name}|${config.name}|${config.type}|${coalesce(try(config.content, null), "")}"
@@ -120,5 +125,5 @@ resource "cloudflare_dns_record" "records" {
 import {
   for_each = local.dns_record_imports
   to       = cloudflare_dns_record.records[each.key]
-  id       = "${local.zones[each.value.zone_name]}/${each.value.id}"
+  id       = "${local.zones[each.value.zone_name]}/${each.value.import_id}"
 }
