@@ -48,7 +48,7 @@ RUN if ! getent group "${DOCKER_GROUP}" >/dev/null; then \
 
 RUN set -eux; \
     case "${TARGETARCH:-amd64}" in \
-      amd64) arch="x86_64"; docs_arch="amd64"; tflint_arch="amd64"; aws_arch="x86_64" ;; \
+      amd64) arch="amd64"; docs_arch="amd64"; tflint_arch="amd64"; aws_arch="x86_64" ;; \
       arm64) arch="arm64"; docs_arch="arm64"; tflint_arch="arm64"; aws_arch="aarch64" ;; \
       *) echo "unsupported architecture: ${TARGETARCH:-unknown}" >&2; exit 1 ;; \
     esac; \
