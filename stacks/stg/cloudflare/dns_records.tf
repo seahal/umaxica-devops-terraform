@@ -120,6 +120,10 @@ resource "cloudflare_dns_record" "records" {
   content = each.value.content
   proxied = try(each.value.proxied, null)
   ttl     = each.value.ttl
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 import {

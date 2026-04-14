@@ -29,6 +29,7 @@ resource "cloudflare_ruleset" "zone_ruleset" {
   rules = []
 
   lifecycle {
+    prevent_destroy = true
     # rules are managed incrementally; prevent accidental deletion of existing rules
     ignore_changes = [name, rules]
   }
