@@ -24,21 +24,6 @@ locals {
         hostname  = "us.umaxica.${zone}"
         zone_name = "umaxica.${zone}"
       }
-      "umaxica-apps-edge-${zone}-docs-jp" = {
-        service   = "umaxica-apps-edge-${zone}-docs"
-        hostname  = "docs-jp.umaxica.${zone}"
-        zone_name = "umaxica.${zone}"
-      }
-      "umaxica-apps-edge-${zone}-help-jp" = {
-        service   = "umaxica-apps-edge-${zone}-help"
-        hostname  = "help-jp.umaxica.${zone}"
-        zone_name = "umaxica.${zone}"
-      }
-      "umaxica-apps-edge-${zone}-news-jp" = {
-        service   = "umaxica-apps-edge-${zone}-news"
-        hostname  = "news-jp.umaxica.${zone}"
-        zone_name = "umaxica.${zone}"
-      }
     }
   ]...)
 
@@ -52,7 +37,8 @@ locals {
 resource "cloudflare_workers_custom_domain" "workers" {
   for_each = local.worker_custom_domains
 
-  account_id  = var.account_id
+  account_id = var.account_id
+  # Keep the deprecated field for now; removing it forces replacement in the current provider version.
   environment = "production"
   hostname    = each.value.hostname
   service     = each.value.service
@@ -78,20 +64,6 @@ import {
   id = "63f4929bae4f7abb83749a7592a68918b0bfc5fa"
 }
 
-import {
-  to = cloudflare_workers_custom_domain.workers["umaxica-apps-edge-app-docs-jp"]
-  id = "ec71dc987ed31d108b3b9783e58c7ea21c6b873a"
-}
-
-import {
-  to = cloudflare_workers_custom_domain.workers["umaxica-apps-edge-app-help-jp"]
-  id = "2cecc2443d8e8457db809c929eb5c877d31e6248"
-}
-
-import {
-  to = cloudflare_workers_custom_domain.workers["umaxica-apps-edge-app-news-jp"]
-  id = "419c148a4cea137463549dd05bf9e6a4897c0c51"
-}
 
 import {
   to = cloudflare_workers_custom_domain.workers["umaxica-apps-edge-com-apex"]
@@ -108,20 +80,6 @@ import {
   id = "a6039e027d2dc7a60f95f41d4335d3cb87a3dd1d"
 }
 
-import {
-  to = cloudflare_workers_custom_domain.workers["umaxica-apps-edge-com-docs-jp"]
-  id = "c6f6d9be9ecc15e84c5d7855aa38f0708372c5c4"
-}
-
-import {
-  to = cloudflare_workers_custom_domain.workers["umaxica-apps-edge-com-help-jp"]
-  id = "496b68bf5f87e12e6364895f3e74edb29ba39a02"
-}
-
-import {
-  to = cloudflare_workers_custom_domain.workers["umaxica-apps-edge-com-news-jp"]
-  id = "387bd8d85f45b8b5a8dca35fec6813b20f90ece8"
-}
 
 import {
   to = cloudflare_workers_custom_domain.workers["umaxica-apps-edge-net-apex"]
@@ -143,17 +101,3 @@ import {
   id = "d8b4ae499b3ba61fde7ab51accef8972827e87a0"
 }
 
-import {
-  to = cloudflare_workers_custom_domain.workers["umaxica-apps-edge-org-docs-jp"]
-  id = "338a12b00c12dc21d26ff4f2147d096a21a2853b"
-}
-
-import {
-  to = cloudflare_workers_custom_domain.workers["umaxica-apps-edge-org-help-jp"]
-  id = "d848fdbda7d6997f62ec1079c3b22b0fa88c1a6d"
-}
-
-import {
-  to = cloudflare_workers_custom_domain.workers["umaxica-apps-edge-org-news-jp"]
-  id = "6fb3236c9e6751e6fcce34e73b5f86148aad11fb"
-}
