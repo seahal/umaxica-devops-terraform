@@ -24,6 +24,11 @@ locals {
         hostname  = "us.umaxica.${zone}"
         zone_name = "umaxica.${zone}"
       }
+      "umaxica-apps-edge-${zone}-jump" = {
+        service   = "umaxica-apps-edge-${zone}-jump"
+        hostname  = "jump.umaxica.${zone}"
+        zone_name = "umaxica.${zone}"
+      }
     }
   ]...)
 
