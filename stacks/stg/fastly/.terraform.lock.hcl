@@ -1,0 +1,23 @@
+# This file is maintained automatically by "terraform init".
+# Manual edits may be lost in future updates.
+
+provider "registry.terraform.io/fastly/fastly" {
+  version     = "9.1.1"
+  constraints = "~> 9.1.0"
+  hashes = [
+    "h1:AQuJ+OquzqpN7WDbpqvPRXkFgoTgMaTaxesWWTAnX2k=",
+    "zh:0bc96ffd76e02c1b18df64627c320b213631a38065eba4284e3ff8d15adb8da4",
+    "zh:43ae1aa7d97c22d67447c994164f8c9d2d525d41700b642683b6edd0862638b7",
+    "zh:49e3293fb370d85f05e569c67865bd7a2a48217a80f7908ef27295c11fe70c92",
+    "zh:52c79286fe3abe08eaf062f9c30b1cc1cdab82992281b05923a934da5551c9a1",
+    "zh:82357ff6009a8e062fb536576e60fdbcb857fff47961199c4f0d1c948768d2a0",
+    "zh:8403d4edc860c081860ebf359943bffc8e381c60bb97187e933cf0de742d2736",
+    "zh:88177e67195fb5a7536f3e1d5878f72edd27157ed772830e2664df25661b4795",
+    "zh:9239005960f0d49e6c870857bdf57af1ebc757fae7e80a286f0176e3f2495af5",
+    "zh:c20304691ba442c16d8330da8adb978739aea559b6f01d5c9693548203cc0a7e",
+    "zh:c4e11e4a36afeb1eed9572c30e921e9fb7474385b97238ad839181f6c20f69f2",
+    "zh:df1d75831d97581f373df38c544379d19e6f6c6b3c5c2f79fdc0603a24d5cd0a",
+    "zh:edbb3ea960d7c548fafdf829895113c4971b4d5c5fd498a3e48eba438f66c28c",
+    "zh:f45634cb9a335883e3b1f8b4667df29865a12a91bc92f07e547785810b0fb2c5",
+  ]
+}
